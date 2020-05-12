@@ -153,8 +153,16 @@ nav .mybook {
 /* FRIEND.PHP */
 .btn-add {
     border: none;
+    border-radius: 15px;
 
 }
+
+.btn-group {
+    border: none;
+    border-radius: 5px;
+
+}
+
 
 /* END OF FRIEND.PHP */
 

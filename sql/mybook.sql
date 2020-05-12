@@ -57,16 +57,16 @@ CREATE TABLE Image(
 );
 
 CREATE TABLE Profile_Pic (
-    profile_id VARCHAR(11),
-    image_id VARCHAR(11),
+    profile_id INT AUTO_INCREMENT,
+    image_id INT,
 
-    PRIMARY KEY(profile_id,image_id),
+    PRIMARY KEY(profile_id,image_id)
 
-	FOREIGN KEY(profile_id)
-	REFERENCES Profile(profile_id) ON DELETE cascade ON UPDATE cascade,
+	-- FOREIGN KEY(profile_id)
+	-- REFERENCES Profile(profile_id) ON DELETE cascade ON UPDATE cascade,
 
-	FOREIGN KEY(image_id)
-	REFERENCES Image(image_id) ON DELETE cascade ON UPDATE cascade
+	-- FOREIGN KEY(image_id)
+	-- REFERENCES Image(image_id) ON DELETE cascade ON UPDATE cascade
 );
 
 CREATE TABLE Post(
@@ -78,6 +78,14 @@ CREATE TABLE Post(
 	-- FOREIGN KEY(username)
 	-- REFERENCES User(username) ON DELETE cascade ON UPDATE cascade
 );
+
+CREATE TABLE Post_Date (
+   post_id INT AUTO_INCREMENT,
+   post_date DATE,
+   post_time TIME,
+   PRIMARY KEY(post_id)
+);
+
 
 CREATE TABLE Post_Image(
     post_id varchar(11),
@@ -102,6 +110,14 @@ CREATE TABLE Comment(
 	-- FOREIGN KEY(post_id)
 	-- REFERENCES Post(post_id) ON DELETE cascade ON DELETE cascade
 );
+
+CREATE TABLE Comment_Date (
+   comm_id INT,
+   comm_date DATE,
+   comm_time TIME,
+   PRIMARY KEY(comm_id)
+);
+
 CREATE TABLE Commenter(
 	comm_id INT,
 	username VARCHAR(11),
@@ -112,21 +128,21 @@ CREATE TABLE Commenter(
 	-- REFERENCES Post(post_id) ON DELETE cascade ON DELETE cascade
 );
 
-CREATE TABLE  Group(
-	group_id VARCHAR(11),
+CREATE TABLE  Groups(
+	group_id INT AUTO_INCREMENT,
 	group_name VARCHAR(25),
 	
 	PRIMARY KEY(group_id)
 );
 
 CREATE TABLE  Group_Creator(
+	group_id INT,
     username VARCHAR(11),
-	group_id VARCHAR(11),
 	date_created DATE,
 	
 	PRIMARY KEY(group_id,username)
-	FOREIGN KEY(username)
-	REFERENCES User(username) ON DELETE cascade ON UPDATE cascade
+	-- FOREIGN KEY(username)
+	-- REFERENCES User(username) ON DELETE cascade ON UPDATE cascade
 );
 
 CREATE TABLE  Group_Member(
@@ -135,8 +151,8 @@ CREATE TABLE  Group_Member(
 	date_joined DATE,
 
 	PRIMARY KEY(group_id,username)
-	FOREIGN KEY(username)
-	REFERENCES User(username) ON DELETE cascade ON UPDATE cascade
+	-- FOREIGN KEY(username)
+	-- REFERENCES User(username) ON DELETE cascade ON UPDATE cascade
 );
 
 CREATE TABLE  Group_Admin(
@@ -144,8 +160,8 @@ CREATE TABLE  Group_Admin(
 	username VARCHAR(11),
 
 	PRIMARY KEY(group_id,username)
-	FOREIGN KEY(username)
-	REFERENCES User(username) ON DELETE cascade ON UPDATE cascade
+	-- FOREIGN KEY(username)
+	-- REFERENCES User(username) ON DELETE cascade ON UPDATE cascade
 );
 
 CREATE TABLE Friends_With(
@@ -185,12 +201,7 @@ CREATE TABLE Post_Image (
 	PRIMARY KEY(post_id,image_id)
 );
 
-CREATE TABLE Post_Date (
-   post_id INT AUTO_INCREMENT,
-   post_date DATE,
-   post_time TIME,
-   PRIMARY KEY(post_id)
-);
+
 CREATE TABLE Image (
    image_id INT AUTO_INCREMENT ,
    image_name VARCHAR(20),
@@ -207,6 +218,78 @@ insert into Post_Date(post_id,post_date,post_time) values
 (new.post_id, now(),curtime());
 END $$
 delimiter ;
+
+-- FOR COMMENT DATE
+Delimiter $$
+CREATE TRIGGER Comment
+AFTER insert ON Post
+FOR EACH ROW
+BEGIN
+insert into Comment_Date(comm_id,comm_date,comm_time) values
+(new.comm_id, now(),curtime());
+END $$
+delimiter ;
+
+-- FOR GROUP DATE
+Delimiter $$
+CREATE TRIGGER Comment
+AFTER insert ON Groups
+FOR EACH ROW
+BEGIN
+insert into Created_Date(comm_id,date_created) values
+(new.comm_id, now());
+END $$
+delimiter ;
+
+-- FOR PROFILE PIC
+Delimiter $$
+CREATE TRIGGER new_profile_pic
+AFTER insert ON Image
+FOR EACH ROW
+BEGIN
+insert into Profile_Pic(image_id) values
+(new.image_id);
+END $$
+delimiter ;
+
+-- FOR GROUP MEMBER
+Delimiter $$
+CREATE TRIGGER new_member
+AFTER insert ON Groups
+FOR EACH ROW
+BEGIN
+insert into Group_Member(group_id,username,date_joined) values
+(new.group_id,new.username,now());
+END $$
+delimiter ;
+
+-- FOR GROUP CREATOR
+Delimiter $$
+CREATE TRIGGER creator
+AFTER insert ON Groups
+FOR EACH ROW
+BEGIN
+insert into Group_Creator(group_id,username,date_created) values
+(new.group_id,username,now());
+END $$
+delimiter ;
+
+-- FOR GROUP CREATOR
+Delimiter $$
+CREATE TRIGGER admin
+AFTER insert ON Groups
+FOR EACH ROW
+BEGIN
+insert into Group_Admin(group_id,username) values
+(new.group_id,username);
+END $$
+delimiter ;
+
+
+
+
+
+
 
 -- POST_IMAGE
 Delimiter $$
@@ -228,9 +311,6 @@ insert into new_client(customer_id, arrival_date,arrival_time) values
 (new.customer_id, now(),curtime());
 END $$
 delimiter ;
-
-insert into customer values ('CUS-00016','Mark','King Street','New York');
-select * from new_client;
 
 CREATE TRIGGER salary_after_insert AFTER INSERT ON `SALARY` 
 //     FOR EACH ROW
@@ -256,4 +336,5 @@ begin
 END $$
 delimiter ;
 
-CREATE TABLE
+SELECT image_name from Profile_Pic where profile_id in
+(SELECT profile_id FROM Profile WHERE username = 'pete123');

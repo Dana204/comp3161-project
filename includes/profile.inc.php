@@ -15,7 +15,7 @@
             echo '<script type="application/javascript">alert("Could Not Update Successfully"); window.location.href = "'.$redirectUrl.'";</script>';
         }
     }
-    
+
 
     function test_input($data){
         $data = trim($data);

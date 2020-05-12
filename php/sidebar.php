@@ -105,7 +105,7 @@
                 <div class="ml-3 mt-1 d-block mb-3">
                     <span>
                         <i class="fas fa-users text-lightGray bg-gray p-2 menu-icon text-center"></i>
-                        <a href="" class="ml-2 text-lightGray menu-link">Groups
+                        <a href="groups.php" class="ml-2 text-lightGray menu-link">Groups
                             <i class="fas fa-chevron-right text-lightGray float-right mt-1"></i>
                         </a>
                     </span>
