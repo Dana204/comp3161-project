@@ -1,0 +1,258 @@
+@import url("../css/colours.css");
+
+body {
+    font-family: "Lato", sans-serif;
+    /* overflow: hidden; */
+}
+
+.transition {
+    transition: all 0.8s ease;
+}
+
+.size-9 {
+    font-size: 0.9rem;
+}
+
+.size-1-1 {
+    font-size: 1.8rem;
+}
+
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    /* overflow-x: hidden; */
+    overflow-y: hidden;
+    transition: 0.5s;
+}
+
+.sidebar a {
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+.sidebar-brand {
+    padding: 10px 10px;
+}
+
+.sidebar-brand>a {
+    flex-grow: 1;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+}
+
+.openbtn {
+    font-size: 25px;
+    cursor: pointer;
+    padding: 5px 5px;
+    border: none;
+    background: none;
+}
+
+.underline {
+    width: 90%;
+    height: 2px;
+}
+
+/* SIDEBAR HEADER */
+.sidebar-header {
+    overflow: hidden;
+}
+
+.user-pic {
+    float: left;
+    width: 60px;
+    padding: 2px;
+    border-radius: 50px;
+    margin-right: 15px;
+    overflow: hidden;
+}
+
+.user-info {
+    float: left;
+}
+
+.user-name {
+    font-size: 1rem;
+}
+
+.user-status {
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+.user-status i {
+    font-size: 8px;
+    margin-right: 4px;
+}
+
+/* END OF SIDEBAR HEADER */
+
+/* SIDEBAR SEARCH */
+.sidebar-search {
+    transition: all 0.3s ease;
+}
+
+.sidebar-search>div {
+    padding: 10px 20px;
+}
+
+.search-menu {
+    border: none;
+}
+
+/* END OF SIDEBAR SEARCH */
+
+/* SIDEBAR MENU */
+.label {
+    font-size: 1rem;
+}
+
+.menu-icon {
+    border-radius: 5px;
+    width: 35px;
+}
+
+.menu-link {
+    font-size: 0.9rem;
+}
+
+.menu-link:hover,
+.menu-icon:hover {
+    color: white;
+}
+
+nav .mybook {
+    font-size: 1.2rem;
+}
+
+.new-icon {
+    border-radius: 5px;
+    font-size: 0.8rem;
+}
+
+/* END OF SIDEBAR MENU */
+
+/* MAIN HEADER */
+
+
+/* MAIN HEADER */
+
+/* FRIEND.PHP */
+.btn-add {
+    border: none;
+
+}
+
+/* END OF FRIEND.PHP */
+
+/* INDEX.PHP */
+.card,
+.comment-section {
+    box-shadow: 0 10px 26px -6px #000;
+    border: none;
+}
+
+.card-footer {
+    border-top: 2px solid #464a52;
+    /* border-top: 2px solid rgb(51, 47, 47); */
+
+}
+
+.rounded-comment {
+    border-radius: 15px;
+}
+
+
+/* INDEX.PHP */
+
+/* SIDEBAR FOOTER */
+.sidebar-footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    box-shadow: 0px -1px 5px #282c33;
+    border-top: 1px solid #464a52;
+}
+
+.sidebar-footer>a {
+    flex-grow: 1;
+    text-align: center;
+    height: 26px;
+    line-height: 20px;
+    position: relative;
+}
+
+.icon-superscript {
+    padding: 0.2rem;
+    border-radius: 50px;
+    font-size: 10px;
+}
+
+/* END OF SIDEBAR FOOTER */
+
+/* PROFILE */
+.profile-header {
+    box-shadow: 0 5px 13px -8px #464a52;
+}
+
+.title {
+    font-size: 1.1rem;
+}
+
+.profile-img {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    shape-outside: circle();
+}
+
+/* EDIT SECTION */
+.collape form button,
+.collapse form input {
+    height: 35px;
+}
+
+.collapse form input {
+    border-radius: 5px;
+    /* border: 1px solid #464a52; */
+    box-shadow: 0px 1px 5px #282c33;
+    border: none;
+}
+
+.collapse form button {
+    height: 34px;
+    font-size: 0.9rem;
+    /* height: ; */
+}
+
+/* END OF EDIT SECTION */
+
+/* END OF PROFILE */
+
+#main {
+    transition: margin-left .5s;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidebar {
+        padding-top: 15px;
+    }
+
+    .sidebar a {
+        font-size: 18px;
+    }
+}

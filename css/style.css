@@ -1,0 +1,53 @@
+/* FONTS */
+/* font-family: 'Bangers',
+;
+font-family: 'Arbutus Slab',
+font-family: 'Lobster',
+;
+font-family: 'Pacifico',
+;
+; */
+
+@import url("../css/colours.css");
+
+body {
+    /* font-family: 'Roboto',
+        sans-serif; */
+    font-family: 'Roboto Slab',
+        serif;
+}
+
+/* FOR LOGIN.PHP AND REGISTER.PHP */
+
+.bg-star {
+    font-family: 'Arbutus Slab';
+    min-height: 100vh;
+    background-image: url('../img/p17.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.title {
+    font-family: 'Pacifico';
+}
+
+.grid-container {
+    box-shadow: 0 15px 26px -4px var(--black);
+    background: rgba(0, 0, 0, 0.3);
+    width: 380px;
+}
+
+.size-1rem {
+    font-size: 18px;
+}
+
+/* FOOTER */
+.copy-r {
+    font-weight: 0.6rem;
+}
+
+/* END OF FOOTER */
+
+/* END OF LOGIN.PHP AND REGISTER.PHP */

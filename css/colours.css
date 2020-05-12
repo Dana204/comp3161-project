@@ -1,0 +1,53 @@
+:root {
+    --deepKoamaru: #2B4570;
+    --lightSteelBlue: #A8D0DB;
+    --lightBlue: #EAEBEF;
+    --burgundy3: #8E0021;
+    --redPigment: #eb1a2c;
+    --carolinaBlue: #59a5d8;
+    --startCommandBlue: #0e79b2;
+    --black: #000;
+    --darkGunmetal: #1f262a;
+    --lightGray: #818896;
+    --gray: #272f34;
+}
+
+/* TEXTS */
+.text-redPigment {
+    color: var(--redPigment);
+}
+
+.text-lightGray {
+    color: var(--lightGray);
+}
+
+.text-gray {
+    color: var(--gray);
+}
+
+/* BACKGROUNDS */
+.bg-lightGray {
+    background-color: var(--lightGray);
+}
+
+.bg-redPigment {
+    background-color: var(--redPigment);
+}
+
+.bg-darkGunmetal {
+    background-color: var(--darkGunmetal);
+}
+
+.bg-gray {
+    background-color: var(--gray);
+}
+
+
+/* BORDER */
+.border-gray {
+    border-color: var(--gray);
+}
+
+.br-right {
+    border-right: 2px solid #464a52;
+}
