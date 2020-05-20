@@ -1,7 +1,22 @@
 <?php include('sidebar.php') ?>
 <?php include('../includes/profile.inc.php') ?>
-<?php include('../includes/profilepic.inc.php') ?>
+   <?php
+        if(isset($_POST['upload_pic']))
+        { 
+        $filepath = "../upload/" . $_FILES["file"]["name"];
 
+        if(move_uploaded_file($_FILES["file"]["tmp_name"], $filepath)) 
+        {
+        // echo "<img src=".$filepath." height=200 width=300 />";
+        $redirectUrl = 'profile.php';
+        echo '<script type="application/javascript">alert("Uploaded Successfully"); window.location.href = "'.$redirectUrl.'";</script>';
+        } 
+        else 
+        {
+        echo "Error !!";
+        }
+        } 
+    ?>
 <main id="main" class="p-0">
     <div class="container-fluid">
         <!-- HEADER -->
@@ -13,17 +28,10 @@
         <!-- END OF HEADER -->
         <div class="row px-3 pt-3 pb-2 profile-header">
             <div class="col col-lg-12">
-                <?php 
-                    // $sql = "SELECT profile_id FROM Profile WHERE username = '{$_SESSION['username']}'";
-                    // $result = mysqli_query($sql);
-                    //  if (mysqli_num_rows($result) > 0) {                        
-                    // output data of each row
-                    // while($row = mysqli_fetch_assoc($result)) {
-                    //     $date = $date_row['post_date'];
-                    // }
                 
-                ?>
-                <img class="img-flui img-rounded profile-img float-left mr-2" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
+                <!-- <img class="img-flui img-rounded profile-img float-left mr-2" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture"> -->
+                <?php echo "<img src=".$filepath." height=200 width=300 />";?>
+                
                 <h1 class="title font-weight-bold">My Profile</h1>
                 <p></p>
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Totam ratione asperiores praesentium vel enim porro voluptates reiciendis tempora repellendus! Molestias enim, eum atque officiis aliquam in recusandae ex fuga quisquam repudiandae id doloremque quis, sint soluta corporis ratione, dolore laboriosam deleniti reiciendis quaerat nisi repellendus cumque maxime. Modi, tenetur recusandae!</p>
@@ -32,7 +40,7 @@
                 </button>
                 <form action="" class="collapse" id="drop" enctype="multipart/form-data">
                     <input type="file" name="file" />
-                <button type="submit" class="btn bg-redPigment text-white size-1rem" value="Submit" name="but_upload">Upload</button>
+                <button type="submit" class="btn bg-redPigment text-white size-1rem" value="Submit" name="upload_pic">Upload</button>
                 </form>
                          
             </div>

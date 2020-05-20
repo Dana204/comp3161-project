@@ -1,11 +1,12 @@
-
 <?php
 // include '../includes/register.inc.php';
     // include '../includes/session.inc.php';
     include '../includes/db_conn.php';
+    // include '../includes/groups.php';
     session_start();
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

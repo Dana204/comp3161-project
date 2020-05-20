@@ -1,7 +1,7 @@
  <?php
-    include '../includes/db_conn.php';
-    include '../includes/register.inc.php';
-    include '../includes/login.inc.php';
+   //  include '../includes/db_conn.php';
+   //  include '../includes/register.inc.php';
+   //  include '../includes/login.inc.php';
 
     session_start();
     $_SESSION['username'] = $row['username'];

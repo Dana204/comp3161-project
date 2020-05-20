@@ -4,7 +4,7 @@
     include_once '../includes/profile.inc.php';
     $redirectUrl = 'profile.php';
 
-    if(isset($_POST['but_upload'])){
+    if(isset($_POST['upload_pic'])){
         $name = $_FILES['file']['name'];
         $target_dir = "../upload/";
         $target_file = $target_dir . basename($_FILES["file"]["name"]);
@@ -23,6 +23,7 @@
                 
                 // Upload file
                 move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
+                $img = "upload/".$name;
 
             // }
              echo '<script type="application/javascript">alert("Uploaded Successfully"); window.location.href = "'.$redirectUrl.'";</script>';

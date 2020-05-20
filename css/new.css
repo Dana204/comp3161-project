@@ -13,8 +13,18 @@ body {
     font-size: 0.9rem;
 }
 
+.size-1 {
+    font-size: 1rem;
+}
+
 .size-1-1 {
     font-size: 1.8rem;
+}
+
+#sticky-sidebar {
+    position: fixed;
+    max-width: 10%;
+    max-height: 100%;
 }
 
 .sidebar {
@@ -165,6 +175,29 @@ nav .mybook {
 
 
 /* END OF FRIEND.PHP */
+
+/* GROUP */
+table {
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+.addg {
+    font-size: 1rem;
+}
+
+.group-btn {
+    border-radius: 50%;
+    border: none;
+}
+
+/* GROUP */
+
 
 /* INDEX.PHP */
 .card,

@@ -13,11 +13,10 @@
         </nav>
         <!-- END OF HEADER -->
 
-        <div class="row ml-lg-3 ml-md-3 m-2 mt-4 justify-content-sm-center justify-content-md-start  justify-content-lg-start ">
-            <h1 class="d-block" style="font-size:1.6rem;">Users</h1>
-        </div>
-        <div class=" row ml-lg-1 ml-md-3 ">    
-            <div class="col">
+        <div class=" row justify-content-between">    
+            <div class="col col-lg-10">
+                <div class="box pt-3 px-2">
+                <h1 class="d-block" style="font-size:1.6rem;">Users</h1>
                 <?php 
                     // ALL USERS THAT ARE NOT FRIENDS WITH THE LOGGED IN USER
                     $sql = "SELECT username FROM User WHERE username !='{$_SESSION['username']}' AND username NOT IN (SELECT username FROM User WHERE email in (SELECT email FROM Friends_With WHERE username = '{$_SESSION['username']}'))";
@@ -29,7 +28,7 @@
                         while($row = mysqli_fetch_assoc($result)) {
                              $user = $row['username'];
                 ?>
-                <div class="transition d-flex justify-content-between mx-sm-auto mx-md-1 align-items-center col-12 col-sm-10 col-md-6 col-lg-5 mb-2">
+                <div class="transition d-flex justify-content-between mx-sm-auto mx-md-1 align-items-center col-12 col-sm-10 col-md-7 col-lg-5 mb-2">
                     <span><?php echo $user ?></span>
                     <form action="<?= $_SERVER['PHP_SELF']; ?>" method="POST">
                         <button type="submit" class="btn-add bg-redPigment text-white px-2 py-1 m-1" name="submit" value="Submit">Add Friend</button>
@@ -43,15 +42,10 @@
                         echo ' No more friends to add';
                     }
                 ?>
-            </div>
-        </div>
+                </div>
 
-        <!-- FRIENDS -->
-        <div class="row ml-lg-3 ml-md-3 m-2 mt-3 justify-content-sm-center justify-content-md-start justify-content-lg-start ">
-            <h1 class="d-block" style="font-size:1.6rem;">My Friends</h1>
-        </div>
-        <div class="row ml-lg-1 ml-md-3 ">
-            <div class="col">
+                 <div class="box px-2 mt-5">
+                 <h1 class="d-block" style="font-size:1.6rem;">My Friends</h1>
                 <?php 
                     $sql = "SELECT username from User WHERE email in (SELECT email from Friends_With WHERE username = '{$_SESSION['username']}')";
 
@@ -63,7 +57,7 @@
                         while($row = mysqli_fetch_assoc($result)) {
                             $user = $row['username'];
                 ?>
-                <div class="transition d-flex justify-content-between mx-sm-auto mx-md-1 align-items-center col-12 col-sm-10 col-md-6 col-lg-5 mb-2">
+                <div class="transition d-flex justify-content-between mx-sm-auto mx-md-1 align-items-center col-12 col-sm-10 col-md-7 col-lg-5 mb-2">
                     <span><?php echo $user ?></span>
                     <form action="<?= $_SERVER['PHP_SELF']; ?>" method="POST">
                         <button type="submit" class="btn-add bg-redPigment text-white px-2 py-1 m-1" name="drop">Drop Friend</button>
@@ -77,7 +71,17 @@
                         echo 'You have no Friends';
                     }
                 ?>
+                </div>
             </div>
+             <div class="col col-lg-2 col-md-2 col-sm-5 col-12 pt-3 bg-darkGunmetal">
+                 <div id="sticky-sidebar">
+                    <h2 class="text-center text-white " style="font-size:1.2rem">Online Friends</h2>
+                    
+                </div>
+            </div>
+            
         </div>
+
+        
     </div>
 </main>

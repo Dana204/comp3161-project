@@ -1,7 +1,7 @@
 <?php include('sidebar.php') ?>
 <?php include('../includes/post.inc.php') ?>
-<?php include('../includes/comment.inc.php') ?>
-
+<?php include('../includes/db_conn.php') ?>
+    
 
 <main id="main" class="p-0">
     <div class="container-fluid">
@@ -17,6 +17,33 @@
                 <?php echo $_SESSION['username'] ?>!
             </p>        
         </div>
+        <!-- MY POSTS -->
+        <div class="row d-none">
+            <div class="col">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="..." alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="..." alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="..." alt="Third slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+                </div>
+            </div>
+        </div>
+        <!-- END OF MY POSTS -->
+
         <div class="row ml-3 justify-content-center justify-content-sm-center justify-content-md-star m-0">
             <a href="" class="bg-redPigment text-white rounded-comment px-2 py-1" data-toggle="collapse" data-target="#drop" >Create Post</a>     
         </div>
@@ -42,29 +69,34 @@
             </div>
         </div>
 
-        <div class="row p-3 ">
-            <?php 
-                $query = "Select * FROM Post";
-                $result = mysqli_query($conn,$query);
+        <div class="row justify-content-between px-3 mb-2">
+            
+        <?php 
+            $query = "Select * FROM Post";
+            $result = mysqli_query($conn,$query);
 
-                if (mysqli_num_rows($result) > 0) {                        
-                    // output data of each row
-                    while($row = mysqli_fetch_assoc($result)) {
-                        // GETTING DATE AND TIME FROM POST DATE TABLE
-                        $query2 = "Select * FROM Post_Date WHERE post_id = '{$row['post_id']}'";
-                        $result2 = mysqli_query($conn,$query2);
-                        $date_row = mysqli_fetch_assoc($result2);
+            if (mysqli_num_rows($result) > 0) {                        
+                // output data of each row
+                while($row = mysqli_fetch_assoc($result)) {
+                // GETTING DATE AND TIME FROM POST DATE TABLE
+                    $query2 = "Select * FROM Post_Date WHERE post_id = '{$row['post_id']}'";
+                    $result2 = mysqli_query($conn,$query2);
+                    $date_row = mysqli_fetch_assoc($result2);
 
+                    $title = $row['title'];
+                    $description = $row['description'];
+                    $user = $row['username'];
+                    $date = $date_row['post_date'];
+                    $time = $date_row['post_time'];
 
-                        $title = $row['title'];
-                        $description = $row['description'];
-                        $user = $row['username'];
-                        $date = $date_row['post_date'];
-                        $time = $date_row['post_time'];
-            ?>
+                    $query3 = "Select user_comment,comm_id FROM Comment WHERE post_id ='{$row['post_id']}'";
+                    $result3 = mysqli_query($conn,$query3);
+        ?>
+            
+        
             <!-- COULMN START -->
-            <div class="col col-lg-4 col-md-6 col-sm-7 col-12 transition mb-2">
-                <div class="card shadow-sm" style="">
+            <div class="transition col-lg-10 d-flex justify-content-between mx-2 mb-3">
+                <div class="card shadow-sm mb-5" style="width:40%;height:300px;">
                     <img class="card-img-top img-fluid" src="../img/p17.jpg" alt="Card image cap" style="width:100%;height:140px;">
                     <div class="card-body p-1">
                         <h5 class="card-title mb-0 p-0 text-center bg-drkGunmetal"><?php echo $title ?></h5>
@@ -82,55 +114,69 @@
                         <i class="far fa-thumbs-down text-white">
                             <sup class="bg-redPigment text-white icon-superscript my-0 ">20</sup>
                         </i>
-                        <i class="far fa-comment text-white" data-toggle="collapse" data-target="#dropform">
+                        <i class="far fa-comment text-white" data-toggle="colapse" data-target="#dropform">
                              <sup class="bg-redPigment text-white icon-superscript my-0 ">17</sup>
                         </i>
                     </div>
                 </div>
-                <!-- END OF CARD -->
-                <!-- COMMENT SECTION -->
-                 <div class="comment-section border collapse transition mt-2 p-2" id="dropform" style="width:100%">
-                    <form action="<?= $_SERVER['PHP_SELF']; ?>" method="POST" class="">
-                        <button type="submit" class="bg-darkGunmetal border-dark" name="submit"><i class="fas fa-plus-circle text-redPigment"></i>
+                <br>
+                <div class="box bg-darkGunmeal" style="width:400px;">
+                    <h1 style="font-size:1.4rem;" class="text-center">Comments</h1>
+                    <form action="<?= $_SERVER['PHP_SELF']; ?>" method="POST" class="form-inline">
+                        
+                        <input type="text" class="form-control" style="width:50%;height:35px;" name="comment">
+                        <button type="submit" class="bg-redPigment text-white" name="submit_comment" style="width:20%;height:35px;">Submit
                         </button>
-                        <input type="text" class="" style="width:90%;" name="comment">
                     </form>
+                    <?php 
+                    $comment = "";
+                    $redirectUrl = 'index.php';
 
-                    <button class="btn btn-block mt-3 text-center text-white bg-redPigment d-block text-right transition" data-toggle="collapse" 
-                    data-target="#dropcomments">View Comments</button>
+                    if (isset($_POST['submit_comment'])) {
+                        $comment = $_POST['comment'];
+                        
+                        mysqli_query($conn,"INSERT INTO Comment (post_id,user_comment) VALUES ('{$row['post_id']}','$comment')");
+                        mysqli_query($conn,"INSERT INTO Commenter (username) VALUES ('{$_SESSION['username']}')");
 
-                     <?php 
-                        $query3 = "Select user_comment FROM Comment WHERE post_id ='{$row['post_id']}'";
-                        $query3 = "Select user_comment FROM Comment WHERE post_id ='{$row['post_id']}'";
-                        $result3 = mysqli_query($conn,$query3);
+                        echo '<script type="application/javascript">alert("Comment  Added"); window.location.href = "'.$redirectUrl.'";</script>';
+                         
+                    }
+                
+                    ?>
+                    <?php 
+                        
 
                         if (mysqli_num_rows($result3) > 0) {                        
                             // output data of each row
                             while($comment_row = mysqli_fetch_assoc($result3)) {
                                 // GETTING USERNAME FROM COMMENTER TABLE
                                 $query4 = "Select username FROM Commenter WHERE comm_id = '{$comment_row['comm_id']}'";
-                                $query4 = "Select username FROM Commenter WHERE comm_id = '4'";
                                 $result4 = mysqli_query($conn,$query4);
                                 $username_row = mysqli_fetch_assoc($result4);
-                                $comment = $comment_row['user_comment'];
                                 $commenter = $username_row['username'];
+                                $comment = $comment_row['user_comment'];
+
+                                
 
                     ?>
-
                     <!-- COMMENTS -->
-                    <div class="comments mt-3 collapse" id="dropcomments">
+                    <div class="comments mt-3">
                         <div class="comment rounded-comment d-flex px-2 py-1 ">
-                            <strong class="size-9 mr-1">@<?php $commenter ?></strong>                        
-                            <p class="size-9 rounded-comment p-0 mb-0"><?php $comment ?></p>
+                            <strong class="size-9 mr-1">@<?php echo $commenter ;?></strong>                        
+                            <p class="size-9 rounded-comment p-0 mb-0"><?php echo $comment ;?></p>
                         </div>
                     </div> 
+                     <?php }}
+                     else {
+                         echo 'Be the first to comment';
+                     }?>
                 </div>
-                <?php }} else echo '<p class="text-muted text-center size-9 mt-2"> Be the First to Comment!</p>';
-                ?>       
-            </div>
+                <!-- END OF CARD -->
+            </div>   
             <br>
             <!-- END OF COLUMN 1 -->
-            <?php }} ?>       
+            <?php }} ?>  
+                
         </div>
     </div>
 </main>

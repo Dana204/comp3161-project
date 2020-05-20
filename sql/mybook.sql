@@ -127,6 +127,10 @@ CREATE TABLE Commenter(
 	-- FOREIGN KEY(post_id)
 	-- REFERENCES Post(post_id) ON DELETE cascade ON DELETE cascade
 );
+drop table Groups;
+drop table group_admin;
+drop table Group_Member;
+drop table Group_Creator;
 
 CREATE TABLE  Groups(
 	group_id INT AUTO_INCREMENT,
@@ -146,7 +150,7 @@ CREATE TABLE  Group_Creator(
 );
 
 CREATE TABLE  Group_Member(
-	group_id VARCHAR(11),
+	group_id int,
 	username VARCHAR(11),
 	date_joined DATE,
 
@@ -156,7 +160,7 @@ CREATE TABLE  Group_Member(
 );
 
 CREATE TABLE  Group_Admin(
-	group_id VARCHAR(11),
+	group_id int,
 	username VARCHAR(11),
 
 	PRIMARY KEY(group_id,username)
@@ -177,23 +181,6 @@ CREATE TABLE Friends_With(
 -- foreign key(email)
 	-- REFERENCES User(email) ON DELETE cascade ON UPDATE cascade,
 
-SELECT User.username from User where Friends_With.email not in User;
-
-SELECT User.username FROM User JOIN Friends_With ON User.username=Friends_With.username where Friends_With.email not in (SELECT email FROM Friends_With where username="pete123");
-
--- ALL USERS THAT ARE NOT FRIENDS WITH PETE123
-SELECT username FROM User WHERE username != "pete123" AND username NOT IN (SELECT username FROM User WHERE email in (SELECT email FROM Friends_With WHERE username = "pete123"));
-
--- SELECT USERNAME OF FRIENDS OF PETE123
-
-SELECT username FROM User WHERE email in (SELECT email FROM Friends_With WHERE username = "pete123");
-
--- UPDATE COLUMN
-UPDATE User set fname = " " where username = "";
-
-INSERT INTO Friends_With VALUES ('pete123','lgriffin@gmail.com','Work');
-INSERT INTO Friends_With VALUES ('pete123','a@gmail.com','Work');
--- INSERT INTO Friends_With VALUES ('pete123','lgriffin@gmail.com','Work');
 
 CREATE TABLE Post_Image (
     post_id INT,
@@ -222,7 +209,7 @@ delimiter ;
 -- FOR COMMENT DATE
 Delimiter $$
 CREATE TRIGGER Comment
-AFTER insert ON Post
+AFTER insert ON Comment
 FOR EACH ROW
 BEGIN
 insert into Comment_Date(comm_id,comm_date,comm_time) values
@@ -301,40 +288,4 @@ insert into Image_Post(post_id,image_id) values (new.post_id, new.image_id);
 END $$
 delimiter ;
 
--- POST IMAGE
-Delimiter $$
-CREATE TRIGGER new_client_time
-AFTER insert ON customer
-FOR EACH ROW
-BEGIN
-insert into new_client(customer_id, arrival_date,arrival_time) values
-(new.customer_id, now(),curtime());
-END $$
-delimiter ;
-
-CREATE TRIGGER salary_after_insert AFTER INSERT ON `SALARY` 
-//     FOR EACH ROW
-//     BEGIN
-//          INSERT INTO join_table (emp_id, sal_id) VALUES (NEW.emp_id, LAST_INSERT_ID());
-//    END;
-
-Delimiter $$
-CREATE TRIGGER image_post 
-AFTER INSERT ON Post
-FOR EACH ROW
-begin
-  INSERT INTO Post_Image (post_id,image_id) VALUES (NEW.post_id,LAST_INSERT_ID());
-END $$
-delimiter ;
-
-Delimiter $$
-CREATE TRIGGER image_post2 
-AFTER INSERT ON Post,Image
-FOR EACH ROW
-begin
-  INSERT INTO Post_Image (post_id,image_id) VALUES (NEW.post_id,NEW.image_id);
-END $$
-delimiter ;
-
-SELECT image_name from Profile_Pic where profile_id in
-(SELECT profile_id FROM Profile WHERE username = 'pete123');
+\
